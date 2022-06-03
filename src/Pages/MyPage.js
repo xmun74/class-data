@@ -11,7 +11,7 @@ const MyPage = () => {
   const filteredTweets = dummyTweets.filter(
     (tweet) => tweet.username === "kimcoding"
   );
-  console.log(filteredTweets); // filteredTweets = [ {kimcoding 객체} ];
+  // console.log(filteredTweets); // filteredTweets = [ {kimcoding 객체} ];
 
   return (
     <section className="myInfo">
@@ -30,22 +30,23 @@ const MyPage = () => {
       </div>
       <ul className="tweets__mypage">
         {/* TODO : dummyTweets중 kimcoding 이 작성한 트윗 메세지만 있어야 합니다. */}
-        <li className="tweet" id={filteredTweets[0].id}>
-          <div className="tweet__profile">
-            <img src={filteredTweets[0].picture} />
-          </div>
-          <div className="tweet__content">
-            <div className="tweet__userInfo">
-              <span className="tweet__username">
-                {filteredTweets[0].username}
-              </span>
-              <span className="tweet__createdAt">
-                {filteredTweets[0].createdAt}
-              </span>
-            </div>
-            <div className="tweet__message">{filteredTweets[0].content}</div>
-          </div>
-        </li>
+        {/* filter map을 돌려서 출력 */}
+        {filteredTweets.map((tweet) => {
+          return (
+            <li className="tweet" id={tweet.id}>
+              <div className="tweet__profile">
+                <img src={tweet.picture} />
+              </div>
+              <div className="tweet__content">
+                <div className="tweet__userInfo">
+                  <span className="tweet__username">{tweet.username}</span>
+                  <span className="tweet__createdAt">{tweet.createdAt}</span>
+                </div>
+                <div className="tweet__message">{tweet.content}</div>
+              </div>
+            </li>
+          );
+        })}
       </ul>
       <Footer />
     </section>
