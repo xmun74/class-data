@@ -33,7 +33,7 @@ const MyPage = () => {
         {/* filter map을 돌려서 출력 */}
         {filteredTweets.map((tweet) => {
           return (
-            <li className="tweet" id={tweet.id}>
+            <li className="tweet" id={tweet.id} key={tweet.id}>
               <div className="tweet__profile">
                 <img src={tweet.picture} />
               </div>

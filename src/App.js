@@ -14,9 +14,8 @@ const App = () => {
   return (
     <div>
       {/* TODO - BrowserRouter 컴포넌트를 작성합니다. */}
-
       <div className="App">
-        {/* () => 함수를 써줘야 바로 실행이 안되고 눌러야 실행되게 한다 */}
+        {/* () => 함수명을 써줘야 바로 실행이 안되고 눌러야 실행되게 한다 */}
         <button onClick={() => navigate(-1)}>뒤로가기</button>
         <button onClick={() => navigate(1)}>앞으로가기</button>
         <main>
