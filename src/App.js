@@ -24,7 +24,7 @@ const App = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/mypage" element={<MyPage />} />
               </Routes>
-              <Tweets />
+              {/* <Tweets /> */}
             </section>
           </main>
         </div>
