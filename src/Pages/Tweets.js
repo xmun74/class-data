@@ -9,26 +9,26 @@ const Tweets = () => {
   // TODO : 새로 트윗을 작성하고 전송할 수 있게 useState를 적절히 활용하세요.
   const [username, setUsername] = useState("parkhacker");
   const [msg, setMsg] = useState("");
-  const [countS, setCountS] = useState(dummyTweets.length);
-
-  const [List, setList] = useState(dummyTweets);
+  // const [countS, setCountS] = useState(dummyTweets.length);
+  const [Lists, setLists] = useState(dummyTweets);
 
   // input, textarea 내용을 제출버튼을 누르면 unshift로 최상단에 추가해라
   const handleButtonClick = (event) => {
     const createdAt = new Date().toLocaleDateString("ko-kr");
     const picture = dummyTweets[0].picture;
     const tweet = {
+      id: String(Date.now()),
       username,
+      picture,
       content: msg,
       createdAt,
-      picture,
-      id: String(Date.now()),
+      updatedAt: createdAt,
     };
     // TODO : Tweet button 엘리먼트 클릭시 작동하는 함수를 완성하세요.
     // 트윗 전송이 가능하게 작성해야 합니다.
-    setList(dummyTweets.unshift(tweet));
-    // dummyTweets.unshift(tweet);
-    setCountS(countS + 1);
+    setLists([tweet, ...Lists]); // 새로운 배열에 추가 immutable
+    // dummyTweets.unshift(tweet);  // 기존배열에 추가 mutable
+    // setCountS(countS + 1);
   };
 
   const handleChangeUser = (event) => {
@@ -40,11 +40,6 @@ const Tweets = () => {
     // TODO : Tweet textarea 엘리먼트에 입력 시 작동하는 함수를 완성하세요.
     setMsg(event.target.value);
   };
-
-  // tweets들 모두 보여주기
-  // function show(el) {
-  //   return <Tweet tweet={el} />;
-  // }
 
   return (
     <React.Fragment>
@@ -74,7 +69,7 @@ const Tweets = () => {
               <div className="tweetForm__count" role="status">
                 <span className="tweetForm__count__text">
                   {/* TODO : 트윗 총 개수를 보여줄 수 있는 Counter를 작성하세요. */}
-                  {"total: " + countS}
+                  {"total: " + Lists.length}
                 </span>
               </div>
             </div>
@@ -95,7 +90,7 @@ const Tweets = () => {
       <div className="tweet__selectUser"></div>
       <ul className="tweets">
         {/* TODO : 하나의 트윗이 아니라, 주어진 트윗 목록(dummyTweets) 갯수에 맞게 보여줘야 합니다. */}
-        {dummyTweets.map((tweet) => {
+        {Lists.map((tweet) => {
           return <Tweet tweet={tweet} key={tweet.id} />;
         })}
       </ul>
