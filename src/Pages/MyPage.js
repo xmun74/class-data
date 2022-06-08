@@ -3,8 +3,10 @@ import Footer from "../Footer";
 import Tweet from "../Components/Tweet";
 import "./MyPage.css";
 import dummyTweets from "../static/dummyData";
+import Tweets from "./Tweets";
 
-const MyPage = () => {
+const MyPage = (props) => {
+  // console.log("mypage : ", props);
   const filteredTweets = dummyTweets.filter(
     (tweet) => tweet.username === "parkhacker"
   );

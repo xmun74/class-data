@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // TODO : React Router DOM을 설치 후, import 구문을 이용하여 BrowserRouter, Routes, Route 컴포넌트를 불러옵니다.
 
@@ -11,6 +11,8 @@ import About from "./Pages/About";
 import "./App.css";
 
 const App = (props) => {
+  // const [value, setValue] = useState("");
+  console.log("app :", props);
   return (
     <BrowserRouter>
       <div className="App">

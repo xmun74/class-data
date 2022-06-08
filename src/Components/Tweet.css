@@ -28,19 +28,27 @@
   justify-content: space-between;
   align-items: center;
 }
-
+.tweet__userInfo--wrapper {
+  display: flex;
+}
 .tweet__userInfo--wrapper > .tweet__username {
-  display: inline-block;
+  display: flex;
   color: var(--bold-text-color);
   font-weight: 700;
   margin-left: 0.5rem;
 }
 
 .tweet__userInfo--wrapper > .tweet__createdAt {
-  display: inline-block;
+  display: flex;
   color: var(--sub-text-color);
   margin-left: 0.5rem;
 }
+/* delete btn */
+/* .tweet__userInfo--wrapper > .tweet__deletebtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+} */
 
 .tweet__userInfo--buttonWrapper > .tweet__deleteButton {
   display: flex;
@@ -60,7 +68,7 @@
   border-radius: 50px;
 }
 
-.tweet__userInfo--buttonWrapper > button:hover, 
+.tweet__userInfo--buttonWrapper > button:hover,
 .tweet__userInfo--buttonWrapper > button:focus {
   outline: none;
   box-shadow: 0 0 3px var(--button-color);

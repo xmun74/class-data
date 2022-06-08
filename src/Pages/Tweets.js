@@ -1,15 +1,12 @@
-// TODO : useState를 react로 부터 import 합니다.
 import React, { useState } from "react";
 import Footer from "../Footer";
 import Tweet from "../Components/Tweet";
 import "./Tweets.css";
 import dummyTweets from "../static/dummyData";
 
-const Tweets = () => {
-  // TODO : 새로 트윗을 작성하고 전송할 수 있게 useState를 적절히 활용하세요.
+const Tweets = (props) => {
   const [username, setUsername] = useState("parkhacker");
   const [msg, setMsg] = useState("");
-  // const [countS, setCountS] = useState(dummyTweets.length);
   const [Lists, setLists] = useState(dummyTweets);
 
   // input, textarea 내용을 제출버튼을 누르면 unshift로 최상단에 추가해라
@@ -24,11 +21,10 @@ const Tweets = () => {
       createdAt,
       updatedAt: createdAt,
     };
-    // TODO : Tweet button 엘리먼트 클릭시 작동하는 함수를 완성하세요.
-    // 트윗 전송이 가능하게 작성해야 합니다.
-    setLists([tweet, ...Lists]); // 새로운 배열에 추가 immutable
+    // TODO : Tweet button 엘리먼트 클릭시 트윗 전송이 작동되는 함수를 완성하세요.
     // dummyTweets.unshift(tweet);  // 기존배열에 추가 mutable
-    // setCountS(countS + 1);
+    setLists([tweet, ...Lists]); // 새로운 배열에 추가 immutable
+    // dummyTweets.unshift(tweet); // mypage를 위한 추가.
   };
 
   const handleChangeUser = (event) => {
@@ -41,6 +37,25 @@ const Tweets = () => {
     setMsg(event.target.value);
   };
 
+  // select 사용자 조회메뉴
+  const [choice, setChoice] = useState("");
+
+  const filterUser = Lists.filter((user) => user.username === choice);
+  const mapUsers = Lists.map((el) => el.username);
+  const options = mapUsers.map((name, idx) => {
+    return (
+      <option key={idx} value={name}>
+        {name}
+      </option>
+    );
+  });
+  const handleSelectUser = (event) => {
+    setChoice(event.target.value);
+  };
+
+  // const onRemove = (id) => {
+  //   setLists(Lists.filter((user) => user.id !== id));
+  // };
   return (
     <React.Fragment>
       <div className="tweetForm__container">
@@ -74,29 +89,41 @@ const Tweets = () => {
               </div>
             </div>
             <div className="tweetForm__submit">
-              <div className="tweetForm__submitIcon">
-                {/* TODO : 작성한 트윗을 전송할 수 있는 button 엘리먼트를 작성하세요. */}
-                <button
-                  className="tweetForm__submitButton"
-                  onClick={handleButtonClick}
-                >
-                  Tweet
-                </button>
-              </div>
+              <div className="tweetForm__submitIcon"></div>
+              {/* TODO : 작성한 트윗을 전송할 수 있는 button 엘리먼트를 작성하세요. */}
+              <button
+                className="tweetForm__submitButton"
+                onClick={handleButtonClick}
+              >
+                Tweet
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <div className="tweet__selectUser"></div>
+      <div className="tweet__selectUser">
+        <select onChange={handleSelectUser}>
+          <option value="">-- click to filter tweets by username --</option>
+          {options}
+        </select>
+      </div>
       <ul className="tweets">
         {/* TODO : 하나의 트윗이 아니라, 주어진 트윗 목록(dummyTweets) 갯수에 맞게 보여줘야 합니다. */}
-        {Lists.map((tweet) => {
+        {/* select 하면 선택된것만 출력 : 아니면 전체출력 */}
+        {choice !== ""
+          ? filterUser.map((tweet) => {
+              return <Tweet tweet={tweet} key={tweet.id} />;
+            })
+          : Lists.map((tweet) => {
+              return <Tweet tweet={tweet} key={tweet.id} />;
+            })}
+
+        {/* {Lists.map((tweet) => {
           return <Tweet tweet={tweet} key={tweet.id} />;
-        })}
+        })} */}
       </ul>
       <Footer />
     </React.Fragment>
   );
 };
-
 export default Tweets;
