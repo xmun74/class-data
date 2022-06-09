@@ -4,12 +4,17 @@ import Tweet from "../Components/Tweet";
 import "./Tweets.css";
 import dummyTweets from "../static/dummyData";
 
+// 배열에 unshift 추가해도 안되는 이유>>
+// state가 렌더링 조건 -  새로운배경 새주소여야 렌더링된다
+// states는 주소값이 바뀐 거를 본다. 근데 unshift해도 늦게되긴 하지만 렌더링 되는데??
+// username, msg state때문에 렌더링된거임, Lists 렌더링된거 아님!!! --> 그래서 list를 새 배열, 새 주소에 넣어줘야 함
 const Tweets = (props) => {
   const [username, setUsername] = useState("parkhacker");
   const [msg, setMsg] = useState("");
   const [Lists, setLists] = useState(dummyTweets);
+  const [choice, setChoice] = useState(""); // select 사용자 조회메뉴
+  const [filteredTweets, setIsFilteredTweets] = useState(dummyTweets);
 
-  // input, textarea 내용을 제출버튼을 누르면 unshift로 최상단에 추가해라
   const handleButtonClick = (event) => {
     const createdAt = new Date().toLocaleDateString("ko-kr");
     const picture = dummyTweets[0].picture;
@@ -22,9 +27,8 @@ const Tweets = (props) => {
       updatedAt: createdAt,
     };
     // TODO : Tweet button 엘리먼트 클릭시 트윗 전송이 작동되는 함수를 완성하세요.
-    // dummyTweets.unshift(tweet);  // 기존배열에 추가 mutable
-    setLists([tweet, ...Lists]); // 새로운 배열에 추가 immutable
-    // dummyTweets.unshift(tweet); // mypage를 위한 추가.
+    // dummyTweets.unshift(tweet);  // 기존 배열,주소에 추가 mutable
+    setLists([tweet, ...Lists]); // 새로운 배열,주소에 추가 immutable
   };
 
   const handleChangeUser = (event) => {
@@ -37,25 +41,39 @@ const Tweets = (props) => {
     setMsg(event.target.value);
   };
 
-  // select 사용자 조회메뉴
-  const [choice, setChoice] = useState("");
-
   const filterUser = Lists.filter((user) => user.username === choice);
+
   const mapUsers = Lists.map((el) => el.username);
-  const options = mapUsers.map((name, idx) => {
+  const options = mapUsers.map((el, idx) => {
     return (
-      <option key={idx} value={name}>
-        {name}
+      <option key={idx} value={el}>
+        {el}
       </option>
     );
   });
+
+  // 내 코드 - filter기능
   const handleSelectUser = (event) => {
     setChoice(event.target.value);
   };
 
-  // const onRemove = (id) => {
-  //   setLists(Lists.filter((user) => user.id !== id));
-  // };
+  // 강사님 코드 - filter기능
+  const handleFilter = (event) => {
+    if (event.target.value === "cola") {
+      setLists(Lists);
+      setChoice(false);
+    } else {
+      const filtered = Lists.filter(
+        (tweet) => tweet.username === event.target.value
+      );
+      setChoice(true);
+      setIsFilteredTweets(filtered);
+    }
+  };
+  const handleDelete = (username, deleteidx) => {
+    const deletes = Lists.filter((tweet, idx) => idx !== deleteidx);
+    setLists(deletes);
+  };
   return (
     <React.Fragment>
       <div className="tweetForm__container">
@@ -102,7 +120,7 @@ const Tweets = (props) => {
         </div>
       </div>
       <div className="tweet__selectUser">
-        <select onChange={handleSelectUser}>
+        <select onChange={handleFilter}>
           <option value="">-- click to filter tweets by username --</option>
           {options}
         </select>
@@ -110,12 +128,26 @@ const Tweets = (props) => {
       <ul className="tweets">
         {/* TODO : 하나의 트윗이 아니라, 주어진 트윗 목록(dummyTweets) 갯수에 맞게 보여줘야 합니다. */}
         {/* select 하면 선택된것만 출력 : 아니면 전체출력 */}
-        {choice !== ""
-          ? filterUser.map((tweet) => {
-              return <Tweet tweet={tweet} key={tweet.id} />;
+        {choice
+          ? filteredTweets.map((tweet, idx) => {
+              return (
+                <Tweet
+                  tweet={tweet}
+                  key={tweet.id}
+                  handleDelete={handleDelete}
+                  idx={idx}
+                />
+              );
             })
-          : Lists.map((tweet) => {
-              return <Tweet tweet={tweet} key={tweet.id} />;
+          : Lists.map((tweet, idx) => {
+              return (
+                <Tweet
+                  tweet={tweet}
+                  key={tweet.id}
+                  handleDelete={handleDelete}
+                  idx={idx}
+                />
+              );
             })}
 
         {/* {Lists.map((tweet) => {

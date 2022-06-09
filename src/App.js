@@ -11,8 +11,6 @@ import About from "./Pages/About";
 import "./App.css";
 
 const App = (props) => {
-  // const [value, setValue] = useState("");
-  console.log("app :", props);
   return (
     <BrowserRouter>
       <div className="App">
