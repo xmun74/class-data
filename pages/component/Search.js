@@ -1,22 +1,30 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-function Search() {
-  const [textDestination, setTextDestination] = useState('');
+function Search({ onSearch, condition, setCondition }) {
+  const [textDestination, setTextDestination] = useState("");
 
   const handleChange = (e) => {
     setTextDestination(e.target.value.toUpperCase());
   };
 
   const handleKeyPress = (e) => {
-    if (e.type === 'keypress' && e.code === 'Enter') {
+    if (e.type === "keypress" && e.code === "Enter") {
       handleSearchClick();
     }
   };
 
   const handleSearchClick = () => {
-    console.log('검색 버튼을 누르거나, 엔터를 치면 search 함수가 실행됩니다');
-
+    console.log("검색 버튼을 누르거나, 엔터를 치면 search 함수가 실행됩니다");
     // TODO: 지시에 따라 상위 컴포넌트에서 props를 받아서 실행시켜 보세요.
+    // 방법1. test통과하기 위해 onSearch 사용
+    onSearch({ departure: "ICN", destination: textDestination });
+    // 2. condition props로 받아서 setCondition 갱신하는 방법
+    // setCondition({ ...condition, destination: textDestination });
+
+    // 3. setCondition받아서 prev => 사용하기
+    // setCondition((prev) => {
+    //   return { ...prev, destination: textDestination };
+    // });
   };
 
   return (

@@ -1,19 +1,19 @@
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { getFlight } from '../api/FlightDataApi';
-import FlightList from './component/FlightList';
-import LoadingIndicator from './component/LoadingIndicator';
-import Search from './component/Search';
-import Debug from './component/Debug';
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import { getFlight } from "../api/FlightDataApi";
+import FlightList from "./component/FlightList";
+import LoadingIndicator from "./component/LoadingIndicator";
+import Search from "./component/Search";
+import Debug from "./component/Debug";
 // 후반 테스트를 진행할 때 아래 import를 삭제합니다.
-import json from '../resource/flightList';
 
 export default function Main() {
   // 항공편 검색 조건을 담고 있는 상태
   const [condition, setCondition] = useState({
-    departure: 'ICN',
+    departure: "ICN",
   });
-  const [flightList, setFlightList] = useState(json);
+  const [flightList, setFlightList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 주어진 검색 키워드에 따라 condition 상태를 변경시켜주는 함수
   const search = ({ departure, destination }) => {
@@ -21,9 +21,9 @@ export default function Main() {
       condition.departure !== departure ||
       condition.destination !== destination
     ) {
-      console.log('condition 상태를 변경시킵니다');
-
+      console.log("condition 상태를 변경시킵니다");
       // TODO: search 함수가 전달 받아온 '항공편 검색 조건' 인자를 condition 상태에 적절하게 담아보세요.
+      setCondition({ departure, destination });
     }
   };
 
@@ -42,9 +42,14 @@ export default function Main() {
 
   // TODO: Effeck Hook을 이용해 AJAX 요청을 보내보세요.
   // TODO: 더불어, 네트워크 요청이 진행됨을 보여주는 로딩 컴포넌트(<LoadingIndicator/>)를 제공해보세요.
-  // useEffect(() => {
-
-  // }, [])
+  useEffect(() => {
+    setIsLoading(true);
+    getFlight(condition) //
+      .then((resp) => {
+        setFlightList(resp);
+        setIsLoading(false);
+      });
+  }, [condition]);
 
   // TODO: 테스트 케이스의 지시에 따라 search 함수를 Search 컴포넌트로 내려주세요.
   return (
@@ -56,7 +61,11 @@ export default function Main() {
 
       <main>
         <h1>여행가고 싶을 땐, States Airline</h1>
-        <Search />
+        <Search
+          onSearch={search}
+          condition={condition}
+          setCondition={setCondition}
+        />
         <div className="table">
           <div className="row-header">
             <div className="col">출발</div>
@@ -65,7 +74,7 @@ export default function Main() {
             <div className="col">도착 시각</div>
             <div className="col"></div>
           </div>
-          <FlightList list={flightList.filter(filterByCondition)} />
+          {isLoading ? <LoadingIndicator /> : <FlightList list={flightList} />}
         </div>
 
         <div className="debug-area">
