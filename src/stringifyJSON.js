@@ -26,8 +26,41 @@
  * 하지만 이 과제의 목적은 재귀를 공부하는 것이니, 처음부터 구현해봐야겠지요?:
  */
 function stringifyJSON(obj) {
-  // your code goes here
-};
+  if (obj === null) return "null";
+  if (typeof obj === "string") return `"${obj}"`;
+  if (typeof obj !== "object") return `${obj}`;
+
+  // 세션 풀이
+  if (Array.isArray(obj)) {
+    let result = "";
+    for (let el of obj) {
+      result += stringifyJSON(el) + ",";
+    }
+    result = result.slice(0, -1); // 마지막 , 삭제
+    return `[${result}]`;
+
+    // let newArr = [];
+    // obj.forEach(function (ele) {
+    //   newArr.push(stringifyJSON(ele));
+    // });
+    // return `[${newArr}]`;
+  }
+
+  if (typeof obj === "object") {
+    // 세션 풀이
+    let result = "";
+    for (let key in obj) {
+      if (obj[key] === undefined || typeof obj[key] === "function") {
+        continue;
+      } else {
+        // key : value 문자열바꾸니까 재귀함수 호출
+        result += `${stringifyJSON(key)}:${stringifyJSON(obj[key])},`;
+      }
+    }
+    result = result.slice(0, result.length - 1); // 마지막 , 삭제
+    return `{${result}}`;
+  }
+}
 
 // 다음 코드는 결과 제출을 위한 코드입니다. 신경 쓰지 않아도 좋습니다.
 if (typeof window === "undefined") {
