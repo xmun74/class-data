@@ -32,7 +32,7 @@ export const TagsInput = styled.div`
       list-style: none;
       border-radius: 6px;
       margin: 0 8px 8px 0;
-      background: #4000c7;
+      background: #e84118;
       > .tag-close-icon {
         display: block;
         width: 16px;
@@ -70,29 +70,31 @@ export const Tag = () => {
 
   const [tags, setTags] = useState(initialTags);
 
+  // 삭제 - 클릭된 index 제거
   const removeTags = (indexToRemove) => {
     const res = tags.filter((el, idx) => idx !== indexToRemove);
-    // console.log(res);
     setTags(res);
   };
 
+  // 추가 - tags 배열에 새로운 태그 추가
   const addTags = (e) => {
-    // TODO : tags 배열에 새로운 태그를 추가하는 메소드를 완성하세요.
-    // 이 메소드는 태그 추가 외에도 아래 3 가지 기능을 수행할 수 있어야 합니다.
-    // - 아무것도 입력하지 않은 채 Enter 키 입력시 메소드 실행하지 말기
-    // - 태그가 추가되면 input 창 비우기
-    if (e.key === "Enter" && e.target.value.trim() !== "") {
-      // - 이미 입력되어 있는 태그인지 검사하여 이미 있는 태그라면 추가하지 말기
-      if (tags.includes(e.target.value)) {
-        alert("중복된 태그입니다");
-        return setTags([...tags]);
+    let newTag = e.target.value;
+    // 1. 아무것도 입력하지 않은 채 Enter 키 입력시 메소드 실행하지 말기
+    // 2. 태그가 추가되면 input 창 비우기
+    if (e.key === "Enter" && newTag.trim() !== "") {
+      // 3. 이미 입력되어 있는 태그인지 검사하여 이미 있는 태그라면 추가하지 말기
+      if (tags.includes(newTag)) {
+        window.alert("중복된 태그입니다");
+        return null;
       }
       // 태그 개수 10개로 제한
       if (tags.length > 10) {
-        alert("더이상 태그를 추가할 수 없습니다!");
+        window.alert("더이상 태그를 추가할 수 없습니다!");
         e.target.value = "";
-      } else {
-        setTags([...tags, e.target.value]);
+      }
+      // 새 태그 추가 - 배열 뒤에 추가
+      else {
+        setTags([...tags, newTag]);
         e.target.value = "";
       }
     }
@@ -105,12 +107,12 @@ export const Tag = () => {
           {tags.map((tag, index) => (
             <li key={index} className="tag">
               <span className="tag-title">{tag}</span>
+              {/* 삭제 아이콘 click 시, removeTags 메소드 실행 */}
               <span
                 className="tag-close-icon"
+                //함수() 실행문 => 쓰려면 콜백함수로 써야한다
                 onClick={() => removeTags(index)}
               >
-                {/* TODO :  tag-close-icon이 tag-title 오른쪽에 x 로 표시되도록 하고,
-                            삭제 아이콘을 click 했을 때 removeTags 메소드가 실행되어야 합니다. */}
                 &times;
               </span>
             </li>
@@ -119,6 +121,7 @@ export const Tag = () => {
         <input
           className="tag-input"
           type="text"
+          // 엔더키 누르면 태그 추가, {addTags}만 전달해도 됨
           onKeyUp={(e) => addTags(e)}
           placeholder="Press enter to add tags"
         />

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ToggleContainer = styled.div`
   position: relative;
@@ -7,6 +8,7 @@ const ToggleContainer = styled.div`
   left: 47%;
   cursor: pointer;
 
+  // > : 자식 셀렉터
   > .toggle-container {
     width: 50px;
     height: 24px;
@@ -14,14 +16,10 @@ const ToggleContainer = styled.div`
     background-color: #8b8b8b;
     margin-bottom: 10px;
 
-    // TODO : .toggle--checked 클래스가 활성화 되었을 경우의 CSS를 구현합니다.
-    // &:link {
-    //   background-color: #4000c7;
-    // }
-  }
-
-  > .toggle-container.toggle--checked {
-    background-color: #4000c7;
+    // & :.toggle-container있으면서 .toggle--checked있을 때
+    &.toggle--checked {
+      background-color: #e84118;
+    }
   }
 
   > .toggle-circle {
@@ -34,41 +32,84 @@ const ToggleContainer = styled.div`
     background-color: #ffffff;
 
     transition: all 0.3s;
-    // TODO : .toggle--checked 클래스가 활성화 되었을 경우의 CSS를 구현합니다.
-  }
-  > .toggle-circle.toggle--checked {
-    left: 27px;
+    // 추가로 .toggle--checked 클래스가 활성화 경우
+    &.toggle--checked {
+      left: 27px;
+    }
   }
 `;
 
 const Desc = styled.div`
   // TODO : 설명 부분의 CSS를 구현합니다.
   background-color: #ffffff;
-
+  margin: 20px;
+  font-size: 20px;
   text-align: center;
 `;
 
-export const Toggle = () => {
+export const Toggle = ({ primary }) => {
+  //스토리북 테스트 시작
+  // const mode = primary
+  //   ? "storybook-button--primary"
+  //   : "storybook-button--secondary";
+  //스토리북 테스트 끝
+
   const [isOn, setisOn] = useState(false);
 
   const toggleHandler = () => {
-    setisOn(() => !isOn);
+    setisOn(!isOn);
   };
 
   return (
     <>
       <ToggleContainer
+        // 클릭 시 isOn 상태 변경하는 메소드
         onClick={toggleHandler}
-        // TODO : 클릭하면 토글이 켜진 상태(isOn)를 boolean 타입으로 변경하는 메소드가 실행되어야 합니다.
       >
-        {/* TODO : 아래에 div 엘리먼트 2개가 있습니다. 각각의 클래스를 'toggle-container', 'toggle-circle' 로 지정하세요. */}
-        {/* TIP : Toggle Switch가 ON인 상태일 경우에만 toggle--checked 클래스를 div 엘리먼트 2개에 모두 추가합니다. 조건부 스타일링을 활용하세요. */}
+        {/* 조건부 스타일링 - Switch ON 상태만 toggle--checked 클래스를 div 엘리먼트 2개에 모두 추가 */}
         <div className={`toggle-container ${isOn ? "toggle--checked" : ""}`} />
+        {/*    || primary => npm run start에선 안됨, storybook에선 됨
+        <div
+          className={`toggle-container ${
+            isOn || primary ? "toggle--checked" : ""
+          }`}
+        /> */}
         <div className={`toggle-circle ${isOn ? "toggle--checked" : ""}`} />
       </ToggleContainer>
-      {/* TODO : Desc 컴포넌트를 활용해야 합니다. */}
-      <Desc>{isOn ? "Toggle Switch ON" : "Toggle Switch OFF"}</Desc>
-      {/* TIP:  Toggle Switch가 ON인 상태일 경우에 Desc 컴포넌트 내부의 텍스트를 'Toggle Switch ON'으로, 그렇지 않은   'Toggle Switch OFF'가 됩니다. 조건부 렌더링을 활용하세요. */}
+
+      {/* 조건부 렌더링 - Switch ON상태면 내부 텍스트를 'ON'으로, 아니면 'OFF' */}
+      <Desc>Toggle Switch {isOn ? "ON" : "OFF"}</Desc>
     </>
   );
+};
+
+// 스토리북 설정을 위한 추가
+Toggle.propTypes = {
+  /**
+   * Is this the principal call to action on the page?
+   */
+  primary: PropTypes.bool,
+  /**
+   * What background color to use
+   */
+  // backgroundColor: PropTypes.string,
+  /**
+   * How large should the button be?
+   */
+  // size: PropTypes.oneOf(["small", "medium", "large"]),
+  /**
+   * Button contents
+   */
+  // label: PropTypes.string.isRequired,
+  /**
+   * Optional click handler
+   */
+  onClick: PropTypes.func,
+};
+
+Toggle.defaultProps = {
+  backgroundColor: null,
+  primary: false,
+  size: "medium",
+  onClick: undefined,
 };
