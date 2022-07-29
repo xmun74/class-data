@@ -8,9 +8,9 @@ const CreateBlog = ({ blogs, setBlogs }) => {
   const [author, setAuthor] = useState("김코딩");
   let navigate = useNavigate();
 
-  useEffect(() => {
-    // handleSubmit();
-  }, []);
+  // useEffect(() => {
+  //   // handleSubmit();
+  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,28 +18,26 @@ const CreateBlog = ({ blogs, setBlogs }) => {
     /* 작성한 내용과 useNavigate를 이용하여 작성해보세요. */
 
     const newBlogs = {
-      id: Date.now(),
-      title: title,
-      body: body,
-      author: author,
+      id: Date.now(), // id는 json server가 자동, 순서대로 만들어줌
+      title,
+      body,
+      author,
       likes: 0,
     };
 
-    fetch("http://localhost:3001/blogs", {
+    fetch("http://localhost:3001/blogs/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newBlogs),
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
         setBlogs([...blogs, data]);
-        navigate("/", { state: { data } });
+        navigate("/");
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log("Error", err.message);
       });
-    // navigate("/");
     console.log(e.type);
   };
 

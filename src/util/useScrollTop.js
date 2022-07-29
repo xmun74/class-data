@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-const useScroll = () => {
+const useScrollTop = () => {
   useEffect(() => {
     if (window) window.scrollTo(0, 0);
   }, []);
 };
-export default useScroll;
+export default useScrollTop;
