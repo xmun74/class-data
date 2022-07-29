@@ -5,8 +5,8 @@ import useScrollTop from "../util/useScrollTop";
 
 const BlogDetails = ({ data, setData }) => {
   const [isLike, setIsLike] = useState(true);
-  let navigate = useNavigate();
-  let { id } = useParams();
+  const navigate = useNavigate();
+  const { id } = useParams();
   useScrollTop();
 
   /* 현재는 개별 블로그 내용으로 진입해도 내용이 보이지 않습니다. */
@@ -51,14 +51,14 @@ const BlogDetails = ({ data, setData }) => {
       likes: result,
     };
 
-    fetch(`http://localhost:3001/blogs/${id}`, {
+    fetch(`http://localhost:3001/blogs/${blogs.id}`, {
       method: "PUT",
-      headers: { "Content-type": "applicaton/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(putData),
     })
       .then(() => {
-        console.log(putData);
-        navigate(`/blogs/${id}`);
+        // console.log(putData);
+        navigate(`/blogs/${blogs.id}`);
       })
       .catch((err) => console.log("Error", err.message));
   };

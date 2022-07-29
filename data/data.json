@@ -12,31 +12,35 @@
       "title": "반가워요",
       "body": "안녕하세요하하하",
       "author": "김코딩",
-      "likes": 0
+      "likes": 1
     },
     {
       "id": 1659088565270,
       "title": "아따맘마",
       "body": "동동이야 밥먹어라",
       "author": "parkhacker",
-      "likes": 0
+      "likes": 1
     },
     {
       "id": 1659088795532,
       "title": "1",
       "body": "1",
       "author": "김코딩",
-      "likes": 0
+      "likes": 4
     },
     {
       "id": 1659089346551,
       "title": "2",
       "body": "2",
       "author": "김코딩",
-      "likes": 0
+      "likes": 4
     },
     {
-      "id": 1659089349225
+      "id": 1659095119611,
+      "title": "대한민국",
+      "body": "짝짜자작",
+      "author": "김코딩",
+      "likes": 1
     }
   ]
 }
