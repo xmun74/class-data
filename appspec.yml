@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    # 아래 destination은 여러분이 해당 리포지토리를 클론한 위치로 설정해주세요.
+    destination: /Users/mun/Documents/bootcamp/fe-sprint-practice-deploy
+
+hooks:
+  ApplicationStop:
+    - location: scripts/stop.sh
+      runas: root
+  AfterInstall:
+    - location: scripts/initialize.sh
+      runas: root
+  ApplicationStart:
+    - location: scripts/start.sh
+      runas: root
