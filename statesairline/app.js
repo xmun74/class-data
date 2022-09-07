@@ -1,5 +1,5 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 const app = express();
 
 // 모든 서버는 요청을 받을수 있는 포트 번호를 필요로 합니다.
@@ -11,35 +11,36 @@ const app = express();
 // (* 때에 따라 다른 포트번호를 열고 싶다면, 환경 변수를 활용 하기도 합니다.)
 const port = 3001;
 
-const flightRouter = require('./router/flightRouter');
-const bookRouter = require('./router/bookRouter');
-const airportRouter = require('./router/airportRouter');
+const flightRouter = require("./router/flightRouter");
+const bookRouter = require("./router/bookRouter");
+const airportRouter = require("./router/airportRouter");
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/flight', flightRouter);
-app.use('/book', bookRouter);
-app.use('/airport', airportRouter);
+// 분기를 해준다
+app.use("/flight", flightRouter);
+app.use("/book", bookRouter);
+app.use("/airport", airportRouter);
 
-app.get('/', (req, res) => {
-  res.status(200).send('Welcome, States Airline!');
+app.get("/", (req, res) => {
+  res.status(200).send("Welcome, States Airline!");
 });
 
 app.use((req, res, next) => {
-  res.status(404).send('Not Found!');
+  res.status(404).send("Not Found!");
 });
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({
-    message: 'Internal Server Error',
-    stacktrace: err.toString()
+    message: "Internal Server Error",
+    stacktrace: err.toString(),
   });
 });
 
 app.listen(port, () => {
-  console.log(`[RUN] StatesAirline Server... | http://localhost:${port}`);
+  console.log(`🔥[RUN] StatesAirline Server... | http://localhost:${port}`);
 });
 
 module.exports = app;
