@@ -1,0 +1,32 @@
+{
+  "stats": {
+    "suites": 0,
+    "tests": 0,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2022-07-14T09:39:42.730Z",
+    "end": "2022-07-14T09:39:42.731Z",
+    "duration": 1
+  },
+  "tests": [],
+  "pending": [],
+  "failures": [
+    {
+      "title": "Uncaught error outside test suite",
+      "fullTitle": "Uncaught error outside test suite",
+      "currentRetry": 0,
+      "err": {
+        "stack": "Error: listen EADDRINUSE: address already in use :::4000\n    at Server.setupListenHandle [as _listen2] (node:net:1372:16)\n    at listenInCluster (node:net:1420:12)\n    at Server.listen (node:net:1508:7)\n    at Object.<anonymous> (index.js:47:10)\n    at Module._compile (node:internal/modules/cjs/loader:1105:14)\n    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1159:10)\n    at Module.load (node:internal/modules/cjs/loader:981:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:822:12)\n    at Module.require (node:internal/modules/cjs/loader:1005:19)\n    at require (node:internal/modules/cjs/helpers:102:18)\n    at Object.<anonymous> (__test__/server.test.js:1:13)\n    at Module._compile (node:internal/modules/cjs/loader:1105:14)\n    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1159:10)\n    at Module.load (node:internal/modules/cjs/loader:981:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:822:12)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:170:29)\n    at ModuleJob.run (node:internal/modules/esm/module_job:198:25)\n    at async Promise.all (index 0)\n    at async ESMLoader.import (node:internal/modules/esm/loader:385:24)\n    at async importModuleDynamicallyWrapper (node:internal/vm/module:437:15)",
+        "message": "listen EADDRINUSE: address already in use :::4000",
+        "code": "EADDRINUSE",
+        "errno": -48,
+        "syscall": "listen",
+        "address": "::",
+        "port": 4000,
+        "uncaught": true
+      }
+    }
+  ],
+  "passes": []
+}
