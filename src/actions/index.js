@@ -12,30 +12,39 @@ export const addToCart = (itemId) => {
     type: ADD_TO_CART,
     payload: {
       quantity: 1,
-      itemId
-    }
-  }
-}
+      itemId,
+    },
+  };
+};
 
 export const removeFromCart = (itemId) => {
   return {
-    //TODO
-  }
-}
+    type: REMOVE_FROM_CART,
+    payload: {
+      itemId,
+    },
+  };
+};
 
 export const setQuantity = (itemId, quantity) => {
   return {
-    //TODO
-  }
-}
+    type: SET_QUANTITY,
+    payload: {
+      itemId,
+      quantity,
+    },
+  };
+};
 
-export const notify = (message, dismissTime = 5000) => dispatch => {
-  const uuid = Math.random()
-  dispatch(enqueueNotification(message, dismissTime, uuid))
-  setTimeout(() => {
-    dispatch(dequeueNotification())
-  }, dismissTime)
-}
+export const notify =
+  (message, dismissTime = 5000) =>
+  (dispatch) => {
+    const uuid = Math.random();
+    dispatch(enqueueNotification(message, dismissTime, uuid));
+    setTimeout(() => {
+      dispatch(dequeueNotification());
+    }, dismissTime);
+  };
 
 export const enqueueNotification = (message, dismissTime, uuid) => {
   return {
@@ -43,13 +52,13 @@ export const enqueueNotification = (message, dismissTime, uuid) => {
     payload: {
       message,
       dismissTime,
-      uuid
-    }
-  }
-}
+      uuid,
+    },
+  };
+};
 
 export const dequeueNotification = () => {
   return {
-    type: DEQUEUE_NOTIFICATION
-  }
-}
+    type: DEQUEUE_NOTIFICATION,
+  };
+};
