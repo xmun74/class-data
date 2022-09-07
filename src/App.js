@@ -12,12 +12,27 @@ function App() {
 
   return (
     <Router>
-      <Nav />
+      <Nav cartItems={cartItems} />
       <Routes>
-        <Route path="/" element={<ItemListContainer items={items} />} />
+        <Route
+          path="/"
+          element={
+            <ItemListContainer
+              items={items}
+              setCartItems={setCartItems}
+              cartItems={cartItems}
+            />
+          }
+        />
         <Route
           path="/shoppingcart"
-          element={<ShoppingCart cartItems={cartItems} items={items} />}
+          element={
+            <ShoppingCart
+              cartItems={cartItems}
+              items={items}
+              setCartItems={setCartItems}
+            />
+          }
         />
       </Routes>
     </Router>
