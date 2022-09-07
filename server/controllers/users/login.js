@@ -1,6 +1,6 @@
-const { USER_DATA } = require('../../db/data');
+const { USER_DATA } = require("../../db/data");
 // JWT는 generateToken으로 생성할 수 있습니다. 먼저 tokenFunctions에 작성된 여러 메서드들의 역할을 파악하세요.
-const { generateToken } = require('../helper/tokenFunctions');
+const { generateToken } = require("../helper/tokenFunctions");
 
 module.exports = async (req, res) => {
   const { userId, password } = req.body.loginInfo;
@@ -8,9 +8,39 @@ module.exports = async (req, res) => {
   // checkedKeepLogin이 false라면 Access Token만 보내야합니다.
   // checkedKeepLogin이 true라면 Access Token과 Refresh Token을 함께 보내야합니다.
   const userInfo = {
-    ...USER_DATA.filter((user) => user.userId === userId && user.password === password)[0],
+    ...USER_DATA.filter(
+      (user) => user.userId === userId && user.password === password
+    )[0],
   };
 
+  const cookieOptions = {
+    domain: "localhost",
+    path: "/",
+    httpOnly: true,
+    secure: true,
+    sameSite: "none", // secure을 같이 작성해야 함
+  };
+
+  const { accessToken, refreshToken } = await generateToken(
+    userInfo,
+    checkedKeepLogin
+  );
+
+  if (!userInfo.id) {
+    return res.status(401).send("Not Authorized");
+  } else {
+    if (refreshToken) {
+      // 로그인 유지 - Access Token 세션 쿠키 + Refresh Token 영속성 쿠키
+      res.cookie("refresh_jwt", refreshToken, {
+        ...cookieOptions,
+        expires: new Date(Date.now() + 24 * 3600 * 1000 * 7), // 7일후 소명되는 Persistnet - 브라우저 쿠키 유효기간
+      });
+    }
+    // 로그인 일시적 유지 - Access Token 세션 쿠키
+    res.cookie("access_jwt", accessToken, cookieOptions); // Expires(maxAge) 옵션이 없는 Session
+    return res.redirect("/userinfo");
+  }
+  return res.status(404).send("Not Found");
   /*
    * TODO: 로그인 로직을 구현하세요.
    *

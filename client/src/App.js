@@ -1,9 +1,9 @@
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Mypage from './pages/Mypage';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Mypage from "./pages/Mypage";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -24,6 +24,15 @@ function App() {
         인증에 실패했다면 그에 대한 에러 핸들링을 구현하세요. 
       });
     */
+    return axios
+      .get("https://localhost:4000/userinfo") // 쿠키확인하고 유저정보보내는 엔드포인트
+      .then((res) => {
+        setIsLogin(true);
+        setUserInfo(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -33,23 +42,20 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='main'>
+      <div className="main">
         <Routes>
           <Route
-            path='/'
+            path="/"
             element={
               isLogin ? (
                 <Mypage
-                /*
-                TODO: 렌더링에 필요한 App의 상태와 이를 하위 컴포넌트에서 변경할 수 있도록 props를 전달하세요. 
-                */
+                  setIsLogin={setIsLogin}
+                  isLogin={isLogin}
+                  setUserInfo={setUserInfo}
+                  userInfo={userInfo}
                 />
               ) : (
-                <Login
-                /*
-                TODO: App의 상태를 변경할 수 있도록 props를 전달하세요. 
-                */
-                />
+                <Login setIsLogin={setIsLogin} setUserInfo={setUserInfo} />
               )
             }
           />
