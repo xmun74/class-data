@@ -1,5 +1,5 @@
-require('dotenv').config();
-const axios = require('axios');
+require("dotenv").config();
+const axios = require("axios");
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 module.exports = async (req, res) => {
@@ -9,10 +9,10 @@ module.exports = async (req, res) => {
   // https://docs.github.com/en/free-pro-team@latest/developers/apps/identifying-and-authorizing-users-for-github-apps#2-users-are-redirected-back-to-your-site-by-github
   try {
     const result = await axios({
-      method: 'post',
+      method: "post",
       url: `https://github.com/login/oauth/access_token`,
       headers: {
-        accept: 'application/json',
+        accept: "application/json",
       },
       data: {
         client_id: CLIENT_ID,
@@ -24,6 +24,6 @@ module.exports = async (req, res) => {
 
     return res.status(200).send({ accessToken });
   } catch (err) {
-    return res.status(401).send({ message: 'error' });
+    return res.status(401).send({ message: "error" });
   }
 };
