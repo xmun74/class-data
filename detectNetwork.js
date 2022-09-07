@@ -19,6 +19,50 @@ function detectNetwork(cardNumber) {
    * 이 글을 읽으셨다면, detectNetwork함수가 'Diner's Club', 'American Express'를
    * 정확히 검사할 수 있도록 만들고 브라우저 console 화면으로 돌아가세요.
    */
+  // const number = cardNumber.split("");
+
+  const cardNumberTwo = cardNumber.slice(0, 2);
+  const cardNumberThree = cardNumber.slice(0, 3);
+  const cardNumberFour = cardNumber.slice(0, 4);
+  const cardLength = cardNumber.length;
+
+  if (cardLength === 14 && (cardNumberTwo === "38" || cardNumberTwo === "39")) {
+    return `Diner's Club`;
+  }
+  if (cardLength === 15 && (cardNumberTwo === "34" || cardNumberTwo === "37")) {
+    return "American Express";
+  }
+
+  if (cardNumberTwo[0] === "4" && [13, 16, 19].indexOf(cardLength) > -1) {
+    return "Visa";
+  }
+
+  if (
+    51 <= Number(cardNumberTwo) &&
+    Number(cardNumberTwo) <= 55 &&
+    cardLength === 16
+  ) {
+    return "MasterCard";
+  }
+
+  if (
+    [16, 19].indexOf(cardLength) > -1 &&
+    (cardNumberFour === "6011" ||
+      cardNumberTwo === "65" ||
+      (644 <= Number(cardNumberThree) && Number(cardNumberTwo) <= 649))
+  ) {
+    return "Discover";
+  }
+
+  if (
+    (cardNumberFour === "5018" ||
+      cardNumberFour === "5020" ||
+      cardNumberFour === "5038" ||
+      cardNumberFour === "6304") &&
+    [12, 13, 14, 15, 16, 17, 18, 19].indexOf(cardLength) > -1
+  ) {
+    return "Maestro";
+  }
 }
 
 // you don't have to worry about this code. keep this code.
